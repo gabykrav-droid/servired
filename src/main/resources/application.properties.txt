@@ -2,10 +2,8 @@
 server.port=${PORT:8080}
 
 # Base de datos (se sobreescribe en producción)
-spring.datasource.url=${DB_URL:jdbc:mysql://localhost:3306/servired}
-spring.datasource.username=${DB_USER:root}
-spring.datasource.password=${DB_PASS:}
-
+spring.datasource.url=${DATABASE_URL}
+spring.datasource.driver-class-name=org.postgresql.Driver
 spring.jpa.hibernate.ddl-auto=update
-spring.jpa.show-sql=false
-spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect
+spring.jpa.show-sql=true
