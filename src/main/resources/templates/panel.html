@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Panel Usuario</title>
+</head>
+<body>
+
+<h2>Panel Usuario</h2>
+
+<div th:if="${profesional == null}">
+
+    <h3>Crear perfil profesional</h3>
+
+    <form th:action="@{/panel/crear-perfil}" method="post">
+
+        <label>Nombre:</label>
+        <input type="text" name="nombre" required />
+        <br><br>
+
+        <label>Profesión:</label>
+        <input type="text" name="profesion" required />
+        <br><br>
+
+        <label>Descripción:</label>
+        <input type="text" name="descripcion" required />
+        <br><br>
+
+        <button type="submit">Crear Perfil</button>
+
+    </form>
+
+</div>
+
+<div th:if="${profesional != null}">
+
+    <h3>Tu perfil profesional</h3>
+
+    <form th:action="@{/panel/editar-perfil}" method="post">
+
+        <input type="hidden" name="id" th:value="${profesional.id}" />
+
+        <label>Nombre:</label>
+        <input type="text" name="nombre" th:value="${profesional.nombre}" />
+        <br><br>
+
+        <label>Profesión:</label>
+        <input type="text" name="profesion" th:value="${profesional.profesion}" />
+        <br><br>
+
+        <label>Descripción:</label>
+        <input type="text" name="descripcion" th:value="${profesional.descripcion}" />
+        <br><br>
+
+        <p><strong>Estado:</strong>
+            <span th:text="${profesional.estado}"></span>
+        </p>
+
+        <button type="submit">Actualizar Perfil</button>
+
+    </form>
+
+</div>
+
+</body>
+</html>

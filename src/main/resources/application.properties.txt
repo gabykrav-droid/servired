@@ -1,0 +1,11 @@
+# Puerto dinámico para Render
+server.port=${PORT:8080}
+
+# Base de datos (se sobreescribe en producción)
+spring.datasource.url=${DB_URL:jdbc:mysql://localhost:3306/servired}
+spring.datasource.username=${DB_USER:root}
+spring.datasource.password=${DB_PASS:}
+
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=false
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect

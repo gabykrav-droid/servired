@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>ServiRed - Profesionales en Quilmes</title>
+    <meta charset="UTF-8">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #1e3a8a;
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+        }
+
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+            padding: 30px 20px;
+        }
+
+        .buscador {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .buscador input {
+            padding: 10px;
+            width: 60%;
+            max-width: 400px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+
+        .buscador button {
+            padding: 10px 16px;
+            border: none;
+            background-color: #1e3a8a;
+            color: white;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+            transition: transform 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+        }
+
+        .nombre {
+            font-size: 20px;
+            font-weight: bold;
+            color: #1e3a8a;
+            margin-bottom: 5px;
+        }
+
+        .nombre a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .profesion {
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        .descripcion {
+            margin-bottom: 15px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 8px 14px;
+            background-color: #25D366;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .mensaje {
+            text-align: center;
+            margin-top: 30px;
+            color: #666;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>ServiRed</h1>
+    <p>Encontrá profesionales confiables en Quilmes</p>
+</header>
+<div style="background:#ffffff; padding:10px 20px; text-align:right; box-shadow:0 2px 6px rgba(0,0,0,0.05);">
+
+    <!-- Si NO está logueado -->
+    <div sec:authorize="isAnonymous()">
+        <a th:href="@{/login}" style="margin-right:15px; text-decoration:none; color:#1e3a8a;">
+            Iniciar sesión
+        </a>
+        <a th:href="@{/registro}" style="text-decoration:none; color:#1e3a8a;">
+            Registrarse
+        </a>
+    </div>
+
+    <!-- Si está logueado -->
+    <div sec:authorize="isAuthenticated()">
+
+        <a th:href="@{/panel}" style="margin-right:15px; text-decoration:none; color:#1e3a8a;">
+            Mi Panel
+        </a>
+
+        <div sec:authorize="hasRole('ADMIN')" style="display:inline;">
+            <a th:href="@{/admin}" style="margin-right:15px; text-decoration:none; color:#1e3a8a;">
+                Admin
+            </a>
+        </div>
+
+        <a th:href="@{/logout}" style="text-decoration:none; color:#1e3a8a;">
+            Cerrar sesión
+        </a>
+
+    </div>
+
+</div>
+<div class="container">
+
+    <!-- BUSCADOR -->
+    <div class="buscador">
+        <form method="get" th:action="@{/}">
+            <input type="text"
+                   name="buscar"
+                   th:value="${buscar}"
+                   placeholder="Buscar por nombre o profesión">
+
+            <button type="submit">Buscar</button>
+        </form>
+    </div>
+
+    <!-- LISTA DE PROFESIONALES -->
+    <div th:each="prof : ${profesionales}" class="card">
+
+        <div class="nombre">
+            <a th:href="@{/profesional/{id}(id=${prof.id})}"
+               th:text="${prof.nombre}">
+            </a>
+        </div>
+
+        <div class="profesion"
+             th:text="${prof.profesion} + ' - ' + ${prof.zona}">
+        </div>
+
+        <div class="descripcion"
+             th:text="${prof.descripcion}">
+        </div>
+
+        <a class="btn"
+           th:href="'https://wa.me/' + ${prof.telefono}"
+           target="_blank">
+            Contactar por WhatsApp
+        </a>
+
+    </div>
+
+    <!-- MENSAJES -->
+    <div class="mensaje" th:if="${profesionales.isEmpty()}">
+        No se encontraron profesionales.
+    </div>
+
+    <div class="mensaje" th:if="${buscar != null}">
+        Resultados encontrados:
+        <span th:text="${profesionales.size()}"></span>
+    </div>
+
+</div>
+
+</body>
+</html>

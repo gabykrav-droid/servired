@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Editar Profesional</title>
+</head>
+<body>
+
+<h2>Editar Profesional</h2>
+
+<form th:action="@{/actualizar}" method="post" th:object="${profesional}">
+    <input type="hidden" th:field="*{id}" />
+
+    <input type="text" th:field="*{nombre}" placeholder="Nombre" />
+    <input type="text" th:field="*{profesion}" placeholder="Profesión" />
+    <input type="text" th:field="*{telefono}" placeholder="Teléfono" />
+    <input type="text" th:field="*{zona}" placeholder="Zona" />
+    <input type="text" th:field="*{descripcion}" placeholder="Descripción" />
+
+    <button type="submit">Actualizar</button>
+</form>
+
+</body>
+</html>

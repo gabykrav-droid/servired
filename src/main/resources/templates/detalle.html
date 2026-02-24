@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Detalle Profesional - ServiRed</title>
+    <meta charset="UTF-8">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #1e3a8a;
+            color: white;
+            padding: 25px 20px;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+        }
+
+        .nombre {
+            font-size: 26px;
+            font-weight: bold;
+            color: #1e3a8a;
+            margin-bottom: 10px;
+        }
+
+        .profesion {
+            font-size: 18px;
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        .descripcion {
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        .btn-whatsapp {
+            display: inline-block;
+            padding: 10px 18px;
+            background-color: #25D366;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        .btn-volver {
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #1e3a8a;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>ServiRed</h1>
+    <p>Detalle del Profesional</p>
+</header>
+<div style="background:#ffffff; padding:10px 20px; text-align:right; box-shadow:0 2px 6px rgba(0,0,0,0.05);">
+
+    <!-- Si NO está logueado -->
+    <div sec:authorize="isAnonymous()">
+        <a th:href="@{/login}" style="margin-right:15px; text-decoration:none; color:#1e3a8a;">
+            Iniciar sesión
+        </a>
+        <a th:href="@{/registro}" style="text-decoration:none; color:#1e3a8a;">
+            Registrarse
+        </a>
+    </div>
+
+    <!-- Si está logueado -->
+    <div sec:authorize="isAuthenticated()">
+
+        <a th:href="@{/panel}" style="margin-right:15px; text-decoration:none; color:#1e3a8a;">
+            Mi Panel
+        </a>
+
+        <div sec:authorize="hasRole('ADMIN')" style="display:inline;">
+            <a th:href="@{/admin}" style="margin-right:15px; text-decoration:none; color:#1e3a8a;">
+                Admin
+            </a>
+        </div>
+
+        <a th:href="@{/logout}" style="text-decoration:none; color:#1e3a8a;">
+            Cerrar sesión
+        </a>
+
+    </div>
+
+</div>
+<div class="container">
+
+    <div class="card">
+
+        <div class="nombre" th:text="${p.nombre}"></div>
+
+        <div class="profesion"
+             th:text="${p.profesion} + ' - ' + ${p.zona}">
+        </div>
+
+        <div class="descripcion"
+             th:text="${p.descripcion}">
+        </div>
+
+        <a class="btn-whatsapp"
+           th:href="'https://wa.me/' + ${p.telefono}"
+           target="_blank">
+            Contactar por WhatsApp
+        </a>
+
+        <br>
+
+        <a class="btn-volver" th:href="@{/}">
+            ← Volver al inicio
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Pendientes</title>
+</head>
+<body>
+
+<h2>Profesionales Pendientes</h2>
+
+<div th:each="p : ${pendientes}" style="border:1px solid #ccc; padding:10px; margin-bottom:10px;">
+
+    <p><strong>Nombre:</strong> <span th:text="${p.nombre}"></span></p>
+
+    <p><strong>Profesión:</strong> <span th:text="${p.profesion}"></span></p>
+
+    <p><strong>Descripción:</strong> <span th:text="${p.descripcion}"></span></p>
+
+    <p><strong>Email:</strong>
+        <span th:if="${p.usuario != null}" th:text="${p.usuario.email}"></span>
+        <span th:if="${p.usuario == null}">Sin usuario asociado</span>
+    </p>
+
+    <a th:href="@{/admin/aprobar/{id}(id=${p.id})}">
+        Aprobar
+    </a>
+
+    <br><br>
+
+    <a th:href="@{/admin/rechazar/{id}(id=${p.id})}"
+       style="color:red;">
+        Rechazar
+    </a>
+
+
+</div>
+
+<p th:if="${pendientes.isEmpty()}">
+    No hay profesionales pendientes.
+</p>
+
+</body>
+</html>
